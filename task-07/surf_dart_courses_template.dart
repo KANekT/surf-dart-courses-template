@@ -160,7 +160,7 @@ void main() {
 
   // съедобные продукты
   final List<RawProductItem> filteredProducts = products
-      .where((product) => product.expirationDate.isAfter(currentDate))
+      .where((product) => product.qty > 0 && product.expirationDate.isAfter(currentDate))
       .toList();
 
   final Map<String, Map<String, List<String>>> result = HashMap();
