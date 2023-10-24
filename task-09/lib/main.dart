@@ -92,10 +92,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     super.dispose();
   }
 
-  void _changePosition(double height, double width) {
+  void _changePosition(double height, double width, Offset delta) {
+    final top = _top == null ? delta.dy : _top! + delta.dy;
+    final left = _left == null ? delta.dx : _left! + delta.dx;
+
     setState(() {
-      _top = random.nextDouble() * height / 2;
-      _left = random.nextDouble() * width / 2;
+      _top = top;
+      _left = left;
     });
   }
 
@@ -164,8 +167,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                       onLongPress: () {
                         _rotate();
                       },
-                      onPanEnd: (DragEndDetails details) {
-                        _changePosition(height, width);
+                      onPanUpdate: (DragUpdateDetails details) {
+                        _changePosition(height, width, details.delta);
                       },
                       child: Container(
                         color: Colors.transparent,
