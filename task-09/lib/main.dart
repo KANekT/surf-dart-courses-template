@@ -69,7 +69,7 @@ class StarPainter extends CustomPainter {
 }
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
-  Random random = Random();
+  final random = Random();
   late AnimationController _controller;
 
   double? _top;
@@ -118,8 +118,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final size = MediaQuery.sizeOf(context);
+    double width = size.width;
+    double height = size.height;
 
     return Scaffold(
       appBar: AppBar(
