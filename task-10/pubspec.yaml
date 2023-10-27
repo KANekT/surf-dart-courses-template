@@ -1,0 +1,33 @@
+name: surf_flutter_courses_template
+description: Our courses' template.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.0.3 <4.0.0" # Dart SDK version
+  flutter: 3.10.3 # Fixed Flutter version
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/h47VcJt5JSQ.jpg
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto/Roboto-Bold.ttf
+          weight: 700
+    - family: Jura
+      fonts:
+        - asset: assets/fonts/Jura/Jura-Regular.ttf
+        - asset: assets/fonts/Jura/Jura-Bold.ttf
+          weight: 700
