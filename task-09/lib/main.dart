@@ -133,53 +133,49 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             .inversePrimary,
         title: Text(widget.title),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.center,
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: _top,
-                    bottom: null,
-                    left: _left,
-                    right: null,
-                    child: AnimatedContainer(
-                      duration: const Duration(seconds: 2),
-                      curve: Curves.linear,
-                      child: RotationTransition(
-                        turns: _controller,
-                        child: Center(
-                          child: CustomPaint(
-                            painter: StarPainter(_color),
-                            size: const Size(200, 200),
-                          ),
-                        ),
+      body: SizedBox.expand(
+        child: Align(
+          alignment: Alignment.center,
+          child: Stack(
+            children: [
+              Positioned(
+                top: _top,
+                bottom: null,
+                left: _left,
+                right: null,
+                child: AnimatedContainer(
+                  duration: const Duration(seconds: 2),
+                  curve: Curves.linear,
+                  child: RotationTransition(
+                    turns: _controller,
+                    child: Center(
+                      child: CustomPaint(
+                        painter: StarPainter(_color),
+                        size: const Size(200, 200),
                       ),
                     ),
                   ),
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onTap: () {
-                        _changeColor();
-                      },
-                      onLongPress: () {
-                        _rotate();
-                      },
-                      onPanUpdate: (DragUpdateDetails details) {
-                        _changePosition(height, width, details.delta);
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: () {
+                    _changeColor();
+                  },
+                  onLongPress: () {
+                    _rotate();
+                  },
+                  onPanUpdate: (DragUpdateDetails details) {
+                    _changePosition(height, width, details.delta);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
