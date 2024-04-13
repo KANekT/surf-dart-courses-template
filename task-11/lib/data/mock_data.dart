@@ -1,6 +1,6 @@
-import 'models/amount.dart';
-import 'models/category.dart';
-import 'models/product.dart';
+import '../domain/entity/amount.dart';
+import '../domain/entity/category_type.dart';
+import '../domain/entity/product_entity.dart';
 
 /// Список продуктов.
 ///

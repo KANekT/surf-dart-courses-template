@@ -1,5 +1,7 @@
+import 'package:decimal/decimal.dart';
+
 import 'amount.dart';
-import 'category.dart';
+import 'category_type.dart';
 
 /// Модель продукта.
 ///
@@ -36,6 +38,8 @@ class ProductEntity {
   /// Требуется высчитать самостоятельно итоговую цену товара.
   final double sale;
 
+  Decimal get decimalPrice => _getDecimalPrice(price);
+
   ProductEntity({
     required this.title,
     required this.price,
@@ -44,4 +48,10 @@ class ProductEntity {
     required this.amount,
     this.sale = 0,
   });
+
+  // Переведем цену в формат decimal для точных расчетов
+  _getDecimalPrice(int price) {
+    final priceStr = (price / 100).toStringAsFixed(2);
+    return Decimal.parse(priceStr);
+  }
 }
