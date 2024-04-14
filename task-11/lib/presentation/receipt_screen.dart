@@ -137,7 +137,7 @@ class _ContentWidgetState extends State<_ContentWidget> {
           final cat = Category.values[i];
           final categoryProducts = widget.data.products.where((
               product) => product.category == cat).toList();
-          final isLastCat = i == FilterType.values.length - 1;
+          final isLastCat = i == Category.values.length - 1;
 
           return categoryProducts.isNotEmpty ? _CategoryWidget(
             category: cat.name,
@@ -198,10 +198,14 @@ class _CategoryWidget extends StatelessWidget {
         ...productOfCategory
             .sortByFilter(filter)
             .map((e) =>
+        /*
             ListTile(
                 title: Text(e.title),
                 trailing: Text(e.decimalPrice.toFormattedCurrency())
-            ))
+            )
+            */
+        _ProductWidget(product: e)
+        )
             .toList(),
         const Divider(),
         if(isLastCat)
@@ -213,7 +217,27 @@ class _CategoryWidget extends StatelessWidget {
   }
 }
 
+class _ProductWidget extends StatelessWidget {
+  final ProductEntity product;
 
+  const _ProductWidget({
+    required this.product,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            //Expanded(child: Text(description, style: textTheme.bodyMedium)),
+            //Text(value, style: textTheme.headlineSmall),
+          ],
+        )
+    ]
+    );
+  }
+}
 class _FinancialWidget extends StatelessWidget {
   final List<ProductEntity> products;
 
