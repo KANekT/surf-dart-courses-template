@@ -1,6 +1,7 @@
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:surf_flutter_courses_template/domain/entity/sorting_type.dart';
 import 'package:surf_flutter_courses_template/presentation/empty_screen.dart';
@@ -75,9 +76,18 @@ class _ContentWidgetState extends State<_ContentWidget> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.arrow_back_ios,
+          color: Colors.green),
+        ),
         title: Column(
           children: [
-            Text('Чек № ${widget.data.id}'),
+            Text('Чек № ${widget.data.id}',
+        style: Theme
+            .of(context)
+            .textTheme
+            .labelLarge),
             Text(widget.data.date.toStringDateAndTime(),
                 style: Theme
                     .of(context)
@@ -88,7 +98,7 @@ class _ContentWidgetState extends State<_ContentWidget> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 8),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 8, top: 24),
             child: Row(
               children: [
                 Expanded(child: Text(
@@ -96,14 +106,25 @@ class _ContentWidgetState extends State<_ContentWidget> {
                   style: Theme
                       .of(context)
                       .textTheme
-                      .headlineMedium,
+                      .labelLarge,
                 )),
-                FilledButton.icon(
-                    onPressed: () {
-                      _onPressedFilter();
-                    },
-                    icon: Icon(Icons.sort),
-                    label: const Text('')
+                InkWell(
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    height: 32.0,
+                    width: 32.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      color: const Color.fromRGBO(241, 241, 241, 1),
+                    ),
+                    child: SvgPicture.asset(
+                          'assets/icons/sort.svg',
+                          semanticsLabel: 'Поиск'
+                    ),
+                  ),
+                  onTap: () {
+                    _onPressedFilter();
+                  },
                 )
               ],
             ),

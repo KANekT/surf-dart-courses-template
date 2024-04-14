@@ -17,9 +17,25 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Список покупок',
-      home: TabsScreen(),
+      theme: ThemeData(
+          fontFamily: 'Sora',
+          textTheme: const TextTheme(
+              labelLarge: TextStyle(
+                  fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Color.fromRGBO(37, 40, 73, 1)
+              ),
+              labelSmall: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromRGBO(96, 96, 123, 1)
+              )
+          )
+      ),
+      home: const TabsScreen(),
     );
   }
 }
