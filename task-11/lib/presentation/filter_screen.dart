@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/domain/entity/sorting_type.dart';
+import 'package:surf_flutter_courses_template/main.dart';
 
 class FilterScreen extends StatefulWidget {
   final SortingType filter;
@@ -79,15 +80,19 @@ class _FilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: [
+        if(type == FilterType.none) Text('Сортировка', style: font20Weight700,),
         if(type != FilterType.none) Text(type.name),
         ...sortingList
             .map((e) =>
             RadioListTile<SortingType>(
-                title: Text(e.name),
-                value: e, groupValue: selectedFilter, onChanged: onChanged))
-            .toList(),
+                title: Text(e.name, style: font16Weight400),
+                value: e,
+                groupValue: selectedFilter,
+                onChanged: onChanged)
+        ),
         const Divider(),
         if(isLastType) ...[
           const SizedBox(height: 20),

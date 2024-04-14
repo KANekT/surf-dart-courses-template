@@ -10,10 +10,10 @@ import 'package:surf_flutter_courses_template/utils/extensions/date_time_x.dart'
 import 'package:surf_flutter_courses_template/utils/extensions/decimal_x.dart';
 import 'package:surf_flutter_courses_template/utils/extensions/products_list_x.dart';
 
-import '../domain/entity/category_type.dart';
-import '../domain/entity/product_entity.dart';
-import '../domain/entity/receipt_entity.dart';
-import '../main.dart';
+import 'package:surf_flutter_courses_template/domain/entity/category_type.dart';
+import 'package:surf_flutter_courses_template/domain/entity/product_entity.dart';
+import 'package:surf_flutter_courses_template/domain/entity/receipt_entity.dart';
+import 'package:surf_flutter_courses_template/main.dart';
 
 class ReceiptScreen extends StatefulWidget {
   // номер чека
@@ -78,21 +78,15 @@ class _ContentWidgetState extends State<_ContentWidget> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {},
-          icon: Icon(Icons.arrow_back_ios,
-          color: Colors.green),
+          icon: const Icon(Icons.arrow_back_ios,
+          color: colorGreen),
         ),
         title: Column(
           children: [
             Text('Чек № ${widget.data.id}',
-        style: Theme
-            .of(context)
-            .textTheme
-            .labelLarge),
+        style: font18Weight700),
             Text(widget.data.date.toStringDateAndTime(),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .labelSmall)
+                style: font10Weight400Grey)
           ],
         ),
         bottom: PreferredSize(
@@ -101,12 +95,9 @@ class _ContentWidgetState extends State<_ContentWidget> {
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 8, top: 24),
             child: Row(
               children: [
-                Expanded(child: Text(
+                const Expanded(child: Text(
                   'Список покупок',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .labelLarge,
+                  style: font18Weight700,
                 )),
                 InkWell(
                   child: Container(
@@ -122,7 +113,7 @@ class _ContentWidgetState extends State<_ContentWidget> {
                           semanticsLabel: 'Поиск'
                     ),
                   ),
-                  onTap: () {
+                  onTap: () async {
                     _onPressedFilter();
                   },
                 )
@@ -132,7 +123,7 @@ class _ContentWidgetState extends State<_ContentWidget> {
         ),
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         itemBuilder: (_, i) {
           final cat = Category.values[i];
           final categoryProducts = widget.data.products.where((
@@ -155,8 +146,12 @@ class _ContentWidgetState extends State<_ContentWidget> {
 
   Future<void> _onPressedFilter() async {
     final SortingType? filter = await showFlexibleBottomSheet(
-        initHeight: 0.0,
+        initHeight: 0.8,
         bottomSheetColor: Colors.transparent,
+        bottomSheetBorderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
         context: context,
         builder: (_, __, ___) => FilterScreen(filter: _currentFilter),
         isExpand: true
@@ -192,22 +187,16 @@ class _CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: [
-        Text(category),
+        if (filter != SortingType.none) Text(category, style: font16Weight700),
         ...productOfCategory
             .sortByFilter(filter)
             .map((e) =>
-        /*
-            ListTile(
-                title: Text(e.title),
-                trailing: Text(e.decimalPrice.toFormattedCurrency())
-            )
-            */
-        _ProductWidget(product: e)
-        )
-            .toList(),
-        const Divider(),
+                _ProductWidget(product: e)
+            ),
+        if (filter != SortingType.none) const Divider(),
         if(isLastCat)
           _FinancialWidget(
             products: products,
@@ -226,15 +215,61 @@ class _ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    return IntrinsicHeight(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            //Expanded(child: Text(description, style: textTheme.bodyMedium)),
-            //Text(value, style: textTheme.headlineSmall),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                  product.imageUrl,
+                  height: 68.0,
+                  width: 68.0,
+                  fit: BoxFit.cover),
+            ),
+            const SizedBox(width: 12.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(product.title,
+                      style: font12Weight400),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(product.amount.value.toString()),
+                      Container(
+                          child: Row(
+                            children: [
+                              if (product.sale > 0) Text(product.decimalSale
+                                  .toFormattedCurrency(
+                                  symbol: 'руб', decimalDigits: 0),
+                                  style: font18Weight400Grey),
+                              Container(
+                                  width: 80.0,
+                                  child: Text(product.decimalPrice
+                                      .toFormattedCurrency(
+                                      symbol: '', decimalDigits: 0),
+                                    textAlign: TextAlign.right,
+                                    style: product.sale > 0 ? font12Weight700Red :
+                                    font12Weight700
+                                    ,
+                                  )
+                              ),
+                            ],
+                          )
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
           ],
-        )
-    ]
+        ),
+      ),
     );
   }
 }
@@ -252,13 +287,15 @@ class _FinancialWidget extends StatelessWidget {
     final total = fullTotal - discount;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('В вашей покупке'),
+        const SizedBox(height: 24.0),
+        const Text('В вашей покупке', style: font16Weight700),
         _RowWidget(description: _plural(products.length),
-            value: fullTotal.toFormattedCurrency()),
+            value: fullTotal.toFormattedCurrency(symbol: 'руб')),
         _RowWidget(
-            description: 'Скидка 0%', value: discount.toFormattedCurrency()),
-        _RowWidget(description: 'Итого', value: total.toFormattedCurrency())
+            description: 'Скидка 0%', value: discount.toFormattedCurrency(symbol: 'руб')),
+        _RowWidget(description: 'Итого', value: total.toFormattedCurrency(symbol: 'руб'), isItogo: true)
       ],
     );
   }
@@ -283,7 +320,7 @@ class _FinancialWidget extends StatelessWidget {
   Decimal _getDiscount(List<ProductEntity> products) {
     final discount = products.where((element) => element.sale > 0).toList();
 
-    return discount.isNotEmpty ?
+    return discount.isEmpty ?
     Decimal.zero :
     discount.fold(Decimal.zero, (previousValue, element) =>
     previousValue +
@@ -303,21 +340,24 @@ class _FinancialWidget extends StatelessWidget {
 class _RowWidget extends StatelessWidget {
   final String description;
   final String value;
+  final bool isItogo;
 
   const _RowWidget({
     required this.description,
-    required this.value
+    required this.value,
+    this.isItogo = false
   });
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Row(
-      children: [
-        Expanded(child: Text(description, style: textTheme.bodyMedium)),
-        Text(value, style: textTheme.headlineSmall),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          Expanded(child: Text(description, style: isItogo ? font16Weight700 : font12Weight400)),
+          Text(value, style: isItogo ? font16Weight700 : font12Weight700),
+        ],
+      ),
     );
   }
 }

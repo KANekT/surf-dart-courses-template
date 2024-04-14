@@ -22,20 +22,63 @@ class MainApp extends StatelessWidget {
       title: 'Список покупок',
       theme: ThemeData(
           fontFamily: 'Sora',
-          textTheme: const TextTheme(
-              labelLarge: TextStyle(
-                  fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Color.fromRGBO(37, 40, 73, 1)
-              ),
-              labelSmall: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                  color: Color.fromRGBO(96, 96, 123, 1)
-              )
-          )
       ),
       home: const TabsScreen(),
     );
   }
 }
+const TextStyle font16Weight400 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Color.fromRGBO(37, 40, 73, 1)
+);
+const TextStyle font16Weight700 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: Color.fromRGBO(37, 40, 73, 1)
+);
+const TextStyle font18Weight700 = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Color.fromRGBO(37, 40, 73, 1)
+);
+const TextStyle font20Weight700 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: Color.fromRGBO(37, 40, 73, 1)
+);
+const TextStyle font10Weight400Grey = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: Color.fromRGBO(96, 96, 123, 1)
+);
+const TextStyle font12Weight400 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Color.fromRGBO(37, 40, 73, 1)
+);
+const TextStyle font12Weight700 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    color: Color.fromRGBO(37, 40, 73, 1)
+);
+const TextStyle font12Weight700Red = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    color: Color.fromRGBO(255, 0, 0, 1)
+);
+const TextStyle font18Weight400 = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+    color: Color.fromRGBO(37, 40, 73, 1)
+);
+const TextStyle font18Weight400Grey = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    decoration: TextDecoration.lineThrough,
+    decorationColor: Color.fromRGBO(
+        181, 181, 181, 1),
+    color: Color.fromRGBO(181, 181, 181, 1)
+);
+const Color colorGreen = Color.fromRGBO(103, 205, 0, 100);
+

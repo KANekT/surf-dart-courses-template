@@ -1,5 +1,5 @@
-import '../../domain/entity/receipt_entity.dart';
-import '../mock_data.dart';
+import 'package:surf_flutter_courses_template/domain/entity/receipt_entity.dart';
+import 'package:surf_flutter_courses_template/data/mock_data.dart';
 
 class ShoppingListRepository {
   Future<ReceiptEntity> getReceipt(int id) async {

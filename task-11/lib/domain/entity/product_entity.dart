@@ -39,6 +39,7 @@ class ProductEntity {
   final double sale;
 
   Decimal get decimalPrice => _getDecimalPrice(price);
+  Decimal get decimalSale => _getDecimalSale(sale);
 
   ProductEntity({
     required this.title,
@@ -52,6 +53,12 @@ class ProductEntity {
   // Переведем цену в формат decimal для точных расчетов
   _getDecimalPrice(int price) {
     final priceStr = (price / 100).toStringAsFixed(2);
+    return Decimal.parse(priceStr);
+  }
+
+  // Переведем цену в формат decimal для точных расчетов
+  _getDecimalSale(double sale) {
+    final priceStr = sale.toStringAsFixed(2);
     return Decimal.parse(priceStr);
   }
 }

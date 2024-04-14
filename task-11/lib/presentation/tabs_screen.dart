@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:surf_flutter_courses_template/main.dart';
 
 import 'empty_screen.dart';
 import 'receipt_screen.dart';
@@ -25,8 +26,6 @@ class _TabsScreenState extends  State<TabsScreen>{
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    const Color activeItemColor = Color.fromRGBO(103, 205, 0, 100);
-
     return Scaffold(
       body: IndexedStack(
         index: _currentPage,
@@ -44,7 +43,7 @@ class _TabsScreenState extends  State<TabsScreen>{
               icon: SvgPicture.asset(
                   'assets/icons/article.svg',
                   colorFilter: _currentPage == 0 ? const ColorFilter.mode(
-                      activeItemColor, BlendMode.srcIn) : null,
+                      colorGreen, BlendMode.srcIn) : null,
                   semanticsLabel: 'Каталог'
               ),
               label: 'Каталог'
@@ -53,7 +52,7 @@ class _TabsScreenState extends  State<TabsScreen>{
               icon: SvgPicture.asset(
                   'assets/icons/search.svg',
                   colorFilter: _currentPage == 1 ? const ColorFilter.mode(
-                      activeItemColor, BlendMode.srcIn) : null,
+                      colorGreen, BlendMode.srcIn) : null,
                   semanticsLabel: 'Поиск'
               ),
               label: 'Поиск'
@@ -62,7 +61,7 @@ class _TabsScreenState extends  State<TabsScreen>{
               icon: SvgPicture.asset(
                   'assets/icons/local_mall.svg',
                   colorFilter: _currentPage == 2 ? const ColorFilter.mode(
-                      activeItemColor, BlendMode.srcIn) : null,
+                      colorGreen, BlendMode.srcIn) : null,
                   semanticsLabel: 'Каталог'
               ),
               label: 'Корзина'
@@ -71,7 +70,7 @@ class _TabsScreenState extends  State<TabsScreen>{
               icon: SvgPicture.asset(
                   'assets/icons/person.svg',
                   colorFilter: _currentPage == 3 ? const ColorFilter.mode(
-                      activeItemColor, BlendMode.srcIn) : null,
+                      colorGreen, BlendMode.srcIn) : null,
                   semanticsLabel: 'Личное'
               ),
               label: 'Личное'
@@ -79,7 +78,7 @@ class _TabsScreenState extends  State<TabsScreen>{
         ],
         type: BottomNavigationBarType.fixed,
         backgroundColor: theme.cardColor,
-        selectedItemColor: activeItemColor,
+        selectedItemColor: colorGreen,
         selectedFontSize: 10,
         unselectedFontSize: 10,
       ),

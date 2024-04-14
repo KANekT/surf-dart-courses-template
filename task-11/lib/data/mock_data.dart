@@ -1,6 +1,6 @@
-import '../domain/entity/amount.dart';
-import '../domain/entity/category_type.dart';
-import '../domain/entity/product_entity.dart';
+import 'package:surf_flutter_courses_template/domain/entity/amount.dart';
+import 'package:surf_flutter_courses_template/domain/entity/category_type.dart';
+import 'package:surf_flutter_courses_template/domain/entity/product_entity.dart';
 
 /// Список продуктов.
 ///
@@ -74,7 +74,7 @@ final dataForStudents = <ProductEntity>[
   ),
   ProductEntity(
     title: 'Аспирин',
-    price: 15,
+    price: 1500,
     amount: Quantity(1),
     category: Category.drugs,
     imageUrl:
@@ -82,7 +82,7 @@ final dataForStudents = <ProductEntity>[
   ),
   ProductEntity(
     title: 'Ибупрофен',
-    price: 54,
+    price: 5400,
     category: Category.drugs,
     amount: Quantity(1),
     imageUrl:
