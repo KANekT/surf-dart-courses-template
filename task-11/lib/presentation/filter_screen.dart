@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/domain/entity/sorting_type.dart';
 import 'package:surf_flutter_courses_template/main.dart';
@@ -87,11 +88,15 @@ class _FilterWidget extends StatelessWidget {
         if(type != FilterType.none) Text(type.name),
         ...sortingList
             .map((e) =>
-            RadioListTile<SortingType>(
+            CupertinoListTile(
                 title: Text(e.name, style: font16Weight400),
-                value: e,
-                groupValue: selectedFilter,
-                onChanged: onChanged)
+                leading: CupertinoRadio<SortingType>(
+                    value: e,
+                    activeColor: colorGreen,
+                    groupValue: selectedFilter,
+                    onChanged: onChanged
+                )
+            )
         ),
         const Divider(),
         if(isLastType) ...[
