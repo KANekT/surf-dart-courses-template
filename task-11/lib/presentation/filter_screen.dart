@@ -25,7 +25,7 @@ class _FilterScreenState extends State<FilterScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 24.0),
         itemBuilder: (_, i) {
           final type = FilterType.values[i];
           final sortingList = SortingType.values.where((e) => e.type == type)
@@ -84,26 +84,94 @@ class _FilterWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: [
-        if(type == FilterType.none) Text('Сортировка', style: font20Weight700,),
-        if(type != FilterType.none) Text(type.name),
+        if(type == FilterType.none) Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Row(
+            children: [
+              const Expanded(
+                  child: Text('Сортировка', style: font20Weight700)
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.clear),
+              )
+            ],
+          ),
+        ),
+        if(type != FilterType.none) Text(type.name, style: font12Weight400),
         ...sortingList
             .map((e) =>
-            CupertinoListTile(
-                title: Text(e.name, style: font16Weight400),
-                leading: CupertinoRadio<SortingType>(
-                    value: e,
-                    activeColor: colorGreen,
-                    groupValue: selectedFilter,
-                    onChanged: onChanged
-                )
+            CustomRadio(
+                value: e,
+                groupValue: selectedFilter,
+                onChanged: onChanged
             )
         ),
-        const Divider(),
+        if(!isLastType) const Divider(color: colorBtnGrey, height: 16.0,),
         if(isLastType) ...[
-          const SizedBox(height: 20),
-          FilledButton(onPressed: onDone, child: const Text('Готово'))
+          SizedBox(height: 24.0),
+          Container(
+            width: double.infinity,
+            child: FilledButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(colorGreen),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            side: BorderSide(color: colorGreen)
+                        )
+                    )
+                ),
+                onPressed: onDone,
+                child: const Text('Готово', style: font16Weight700Default)
+            ),
+          )
         ]
       ],
+    );
+  }
+}
+
+class CustomRadio extends StatefulWidget {
+  final SortingType value;
+  final SortingType groupValue;
+  final void Function(SortingType) onChanged;
+  const CustomRadio({super.key, required this.value, required this.groupValue, required this.onChanged});
+
+  @override
+  State<CustomRadio> createState() => _CustomRadioState();
+}
+
+class _CustomRadioState extends State<CustomRadio> {
+  @override
+  Widget build(BuildContext context) {
+    bool selected = (widget.value == widget.groupValue);
+
+    return InkWell(
+      onTap: () => widget.onChanged(widget.value),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Row(
+          children: [
+            Container(
+              height: 20,
+              width: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: selected ? 7 : 2,
+                  color: selected ? colorGreen : colorGrey,
+                  style: BorderStyle.solid,
+                ),
+              ),
+            ),
+            const SizedBox(width: 16.0),
+            Text(widget.value.name, style: font16Weight400),
+          ],
+        ),
+      ),
     );
   }
 }

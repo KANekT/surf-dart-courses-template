@@ -37,6 +37,10 @@ const TextStyle font16Weight700 = TextStyle(
     fontWeight: FontWeight.w700,
     color: Color.fromRGBO(37, 40, 73, 1)
 );
+const TextStyle font16Weight700Default = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700
+);
 const TextStyle font18Weight700 = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w700,
@@ -80,5 +84,7 @@ const TextStyle font18Weight400Grey = TextStyle(
         181, 181, 181, 1),
     color: Color.fromRGBO(181, 181, 181, 1)
 );
-const Color colorGreen = Color.fromRGBO(103, 205, 0, 100);
+const Color colorGreen = Color.fromRGBO(103, 205, 0, 1);
+const Color colorGrey = Color.fromRGBO(96, 96, 123, 1);
+const Color colorBtnGrey = Color.fromRGBO(241, 241, 241, 1);
 

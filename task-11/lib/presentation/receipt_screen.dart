@@ -19,7 +19,7 @@ class ReceiptScreen extends StatefulWidget {
   // номер чека
   final int id;
 
-  const ReceiptScreen({Key? key, required this.id}) : super(key: key);
+  const ReceiptScreen({super.key, required this.id});
 
   @override
   State<StatefulWidget> createState() => _ReceiptScreenState();
@@ -53,7 +53,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
                   : const EmptyScreen();
             }
           }
-          return _LoadingWidget();
+          return const _LoadingWidget();
         }
     );
   }
@@ -79,12 +79,12 @@ class _ContentWidgetState extends State<_ContentWidget> {
         leading: IconButton(
           onPressed: () {},
           icon: const Icon(Icons.arrow_back_ios,
-          color: colorGreen),
+              color: colorGreen),
         ),
         title: Column(
           children: [
             Text('Чек № ${widget.data.id}',
-        style: font18Weight700),
+                style: font18Weight700),
             Text(widget.data.date.toStringDateAndTime(),
                 style: font10Weight400Grey)
           ],
@@ -92,7 +92,8 @@ class _ContentWidgetState extends State<_ContentWidget> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 8, top: 24),
+            padding: const EdgeInsets.only(
+                left: 20, right: 20, bottom: 8, top: 24),
             child: Row(
               children: [
                 const Expanded(child: Text(
@@ -100,18 +101,35 @@ class _ContentWidgetState extends State<_ContentWidget> {
                   style: font18Weight700,
                 )),
                 InkWell(
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    height: 32.0,
-                    width: 32.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.0),
-                      color: const Color.fromRGBO(241, 241, 241, 1),
-                    ),
-                    child: SvgPicture.asset(
-                          'assets/icons/sort.svg',
-                          semanticsLabel: 'Поиск'
-                    ),
+                  child: Stack(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        height: 32.0,
+                        width: 32.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.0),
+                          color: colorBtnGrey,
+                        ),
+                        child: SvgPicture.asset(
+                            'assets/icons/sort.svg',
+                            semanticsLabel: 'Поиск'
+                        ),
+                      ),
+                      if (_currentFilter != SortingType.none)
+                        Positioned(
+                          bottom: 5.0,
+                          right: 5.0,
+                          child: Container(
+                              width: 8,
+                              height: 8,
+                              decoration: const BoxDecoration(
+                                color: colorGreen,
+                                shape: BoxShape.circle,
+                              )
+                          ),
+                        )
+                    ],
                   ),
                   onTap: () async {
                     _onPressedFilter();
@@ -123,7 +141,7 @@ class _ContentWidgetState extends State<_ContentWidget> {
         ),
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
         itemBuilder: (_, i) {
           final cat = Category.values[i];
           final categoryProducts = widget.data.products.where((
@@ -241,26 +259,24 @@ class _ProductWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(product.amount.value.toString()),
-                      Container(
-                          child: Row(
-                            children: [
-                              if (product.sale > 0) Text(product.decimalSale
+                      Row(
+                        children: [
+                          if (product.sale > 0) Text(product.decimalSale
+                              .toFormattedCurrency(
+                              symbol: 'руб', decimalDigits: 0),
+                              style: font18Weight400Grey),
+                          SizedBox(
+                              width: 80.0,
+                              child: Text(product.decimalPrice
                                   .toFormattedCurrency(
-                                  symbol: 'руб', decimalDigits: 0),
-                                  style: font18Weight400Grey),
-                              Container(
-                                  width: 80.0,
-                                  child: Text(product.decimalPrice
-                                      .toFormattedCurrency(
-                                      symbol: '', decimalDigits: 0),
-                                    textAlign: TextAlign.right,
-                                    style: product.sale > 0 ? font12Weight700Red :
-                                    font12Weight700
-                                    ,
-                                  )
-                              ),
-                            ],
-                          )
+                                  symbol: '', decimalDigits: 0),
+                                textAlign: TextAlign.right,
+                                style: product.sale > 0 ? font12Weight700Red :
+                                font12Weight700
+                                ,
+                              )
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -292,10 +308,10 @@ class _FinancialWidget extends StatelessWidget {
         const SizedBox(height: 24.0),
         const Text('В вашей покупке', style: font16Weight700),
         _RowWidget(description: _plural(products.length),
-            value: fullTotal.toFormattedCurrency(symbol: 'руб')),
+            value: fullTotal.toFormattedCurrency(symbol: 'руб', decimalDigits: 0)),
         _RowWidget(
-            description: 'Скидка 0%', value: discount.toFormattedCurrency(symbol: 'руб')),
-        _RowWidget(description: 'Итого', value: total.toFormattedCurrency(symbol: 'руб'), isItogo: true)
+            description: 'Скидка 0%', value: discount.toFormattedCurrency(symbol: 'руб', decimalDigits: 0)),
+        _RowWidget(description: 'Итого', value: total.toFormattedCurrency(symbol: 'руб', decimalDigits: 0), isItogo: true)
       ],
     );
   }
@@ -363,7 +379,7 @@ class _RowWidget extends StatelessWidget {
 }
 
 class _ErrorWidget extends StatelessWidget {
-  const _ErrorWidget({super.key});
+  const _ErrorWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -374,7 +390,7 @@ class _ErrorWidget extends StatelessWidget {
 }
 
 class _LoadingWidget extends StatelessWidget {
-  const _LoadingWidget({super.key});
+  const _LoadingWidget();
 
   @override
   Widget build(BuildContext context) {
