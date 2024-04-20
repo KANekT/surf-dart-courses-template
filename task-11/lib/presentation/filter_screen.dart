@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/domain/entity/sorting_type.dart';
 import 'package:surf_flutter_courses_template/main.dart';
@@ -111,8 +110,8 @@ class _FilterWidget extends StatelessWidget {
         ),
         if(!isLastType) const Divider(color: colorBtnGrey, height: 16.0,),
         if(isLastType) ...[
-          SizedBox(height: 24.0),
-          Container(
+          const SizedBox(height: 24.0),
+          SizedBox(
             width: double.infinity,
             child: FilledButton(
                 style: ButtonStyle(
@@ -120,7 +119,7 @@ class _FilterWidget extends StatelessWidget {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
-                            side: BorderSide(color: colorGreen)
+                            side: const BorderSide(color: colorGreen)
                         )
                     )
                 ),

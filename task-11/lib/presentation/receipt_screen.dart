@@ -143,21 +143,40 @@ class _ContentWidgetState extends State<_ContentWidget> {
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
         itemBuilder: (_, i) {
-          final cat = Category.values[i];
-          final categoryProducts = widget.data.products.where((
-              product) => product.category == cat).toList();
-          final isLastCat = i == Category.values.length - 1;
+          if (_currentFilter == SortingType.none) {
+            final isLastProd = i == widget.data.products.length - 1;
 
-          return categoryProducts.isNotEmpty ? _CategoryWidget(
-            category: cat.name,
-            productOfCategory: categoryProducts,
-            products: widget.data.products,
-            isLastCat: isLastCat,
-            filter: _currentFilter,
-          ) :
-          const SizedBox();
+            if (isLastProd) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _ProductWidget(product: widget.data.products[i]),
+                  _FinancialWidget(
+                    products: widget.data.products,
+                  )
+                ],
+              );
+            } else {
+              return _ProductWidget(product: widget.data.products[i]);
+            }
+          } else {
+            final cat = Category.values[i];
+            final categoryProducts = widget.data.products.where((
+                product) => product.category == cat).toList();
+            final isLastCat = i == Category.values.length - 1;
+
+            return categoryProducts.isNotEmpty ? _CategoryWidget(
+              category: cat.name,
+              productOfCategory: categoryProducts,
+              products: widget.data.products,
+              isLastCat: isLastCat,
+              filter: _currentFilter,
+            ) :
+            const SizedBox();
+          }
         },
-        itemCount: Category.values.length,
+        itemCount: _currentFilter == SortingType.none ? widget.data.products.length : Category.values.length,
       ),
     );
   }
