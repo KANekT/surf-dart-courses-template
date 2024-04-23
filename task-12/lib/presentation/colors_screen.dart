@@ -60,10 +60,12 @@ class _ContentWidgetState extends State<_ContentWidget> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Эксклюзивная палитра «Colored Box»',
+        bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(kToolbarHeight),
+            child: Text('Эксклюзивная палитра «Colored Box»',
             style: font30Weight700,
-            maxLines: 2),
-        toolbarHeight: 98,
+            maxLines: 2)
+        )
       ),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
