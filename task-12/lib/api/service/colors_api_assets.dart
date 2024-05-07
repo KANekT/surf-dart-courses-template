@@ -5,7 +5,7 @@ import 'package:surf_flutter_courses_template/api/colors_api_urls.dart';
 import 'package:surf_flutter_courses_template/api/data/color_data.dart';
 import 'package:surf_flutter_courses_template/api/service/colors_api.dart';
 
-class ColorApiAssets implements ColorsApi{
+class ColorApiAssets implements IColorApi{
   @override
   Future<List<ColorData>> getColors() async {
     final colors = <ColorData>[];
