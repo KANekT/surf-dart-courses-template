@@ -3,37 +3,40 @@ import 'package:flutter/material.dart';
 
 abstract class AppThemeData {
   static final lightTheme = ThemeData(
-    extensions: [_lightColorScheme],
+    extensions: [_lightOneColorScheme],
     brightness: Brightness.light,
     colorScheme: ColorScheme(
       brightness: Brightness.light,
-      primary: _lightColorScheme.primary,
-      onPrimary: _lightColorScheme.onPrimary,
-      secondary: _lightColorScheme.secondary,
-      onSecondary: _lightColorScheme.onSecondary,
-      error: _lightColorScheme.danger,
-      onError: _lightColorScheme.onDanger,
-      background: _lightColorScheme.background,
-      onBackground: _lightColorScheme.onBackground,
-      surface: _lightColorScheme.surface,
-      onSurface: _lightColorScheme.onSurface,
+      primary: _lightOneColorScheme.primary,
+      onPrimary: _lightOneColorScheme.onPrimary,
+      secondary: _lightOneColorScheme.secondary,
+      onSecondary: _lightOneColorScheme.onSecondary,
+      error: _lightOneColorScheme.danger,
+      onError: _lightOneColorScheme.onDanger,
+      background: _lightOneColorScheme.background,
+      onBackground: _lightOneColorScheme.onBackground,
+      surface: _lightOneColorScheme.surface,
+      onSurface: _lightOneColorScheme.onSurface,
     ),
-    scaffoldBackgroundColor: _lightColorScheme.background,
+    scaffoldBackgroundColor: _lightOneColorScheme.background,
     appBarTheme: AppBarTheme(
-      color: _lightColorScheme.primary,
+      color: _lightOneColorScheme.background,
       iconTheme: IconThemeData(
-        color: _lightColorScheme.onPrimary,
+        color: _lightOneColorScheme.onPrimary,
       ),
+      actionsIconTheme: IconThemeData(
+        color: _lightOneColorScheme.onPrimary
+      )
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: _lightColorScheme.background,
-      selectedItemColor: _lightColorScheme.primary,
-      unselectedItemColor: _lightColorScheme.onBackground,
+      backgroundColor: _lightOneColorScheme.background,
+      selectedItemColor: _lightOneColorScheme.primary,
+      unselectedItemColor: _lightOneColorScheme.onBackground,
     ),
     snackBarTheme: SnackBarThemeData(
-      backgroundColor: _lightColorScheme.primary,
+      backgroundColor: _lightOneColorScheme.primary,
       contentTextStyle: TextStyle(
-        color: _lightColorScheme.onPrimary,
+        color: _lightOneColorScheme.onPrimary,
       ),
     ),
   );
@@ -56,9 +59,9 @@ abstract class AppThemeData {
     ),
     scaffoldBackgroundColor: _darkColorScheme.background,
     appBarTheme: AppBarTheme(
-      color: _lightColorScheme.primary,
+      color: _darkColorScheme.primary,
       iconTheme: IconThemeData(
-        color: _lightColorScheme.onPrimary,
+        color: _darkColorScheme.onPrimary,
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -74,6 +77,6 @@ abstract class AppThemeData {
     ),
   );
 
-  static final _lightColorScheme = AppColorScheme.light();
+  static final _lightOneColorScheme = AppColorScheme.lightOne();
   static final _darkColorScheme = AppColorScheme.dark();
 }

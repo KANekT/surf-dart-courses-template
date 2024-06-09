@@ -22,13 +22,11 @@ flutter:
   assets:
     - assets/
   fonts:
-    - family: Ubuntu
+    - family: SF Pro Display
       fonts:
-        - asset: assets/fonts/Ubuntu-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Ubuntu-Regular.ttf
+        - asset: assets/fonts/SFPRODISPLAYREGULAR.OTF
           weight: 400
-        - asset: assets/fonts/Ubuntu-Medium.ttf
+        - asset: assets/fonts/SFPRODISPLAYMEDIUM.OTF
           weight: 500
-        - asset: assets/fonts/Ubuntu-Bold.ttf
+        - asset: assets/fonts/SFPRODISPLAYBOLD.OTF
           weight: 700

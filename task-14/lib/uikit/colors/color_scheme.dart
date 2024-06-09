@@ -61,15 +61,15 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
 
   final Color shimmer;
 
-  AppColorScheme.light()
-      : primary = LightColorPalette.purple,
-        onPrimary = LightColorPalette.white,
+  AppColorScheme.lightOne()
+      : primary = const Color.fromRGBO(34, 34, 34, 1),
+        onPrimary = const Color.fromRGBO(109, 217, 2, 1),
         secondary = LightColorPalette.greenYellow,
         onSecondary = LightColorPalette.chineseBlack,
         surface = LightColorPalette.white,
         surfaceSecondary = LightColorPalette.cultured,
         onSurface = LightColorPalette.chineseBlack,
-        background = LightColorPalette.cultured,
+        background = const Color.fromRGBO(255, 255, 255, 1),
         backgroundSecondary = LightColorPalette.darkScarlet,
         backgroundTertiary = LightColorPalette.cultured,
         onBackground = LightColorPalette.chineseBlack,

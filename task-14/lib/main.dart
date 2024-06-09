@@ -1,5 +1,6 @@
 import 'package:surf_flutter_courses_template/feature/theme/ui/theme_builder.dart';
 import 'package:surf_flutter_courses_template/feature/theme/domain/theme_controller.dart';
+import 'package:surf_flutter_courses_template/presentation/home.dart';
 import 'package:surf_flutter_courses_template/uikit/theme/theme_data.dart';
 import 'package:surf_flutter_courses_template/feature/theme/di/theme_inherited.dart';
 import 'package:surf_flutter_courses_template/feature/theme/data/theme_repository.dart';
@@ -43,7 +44,7 @@ class App extends StatelessWidget {
             theme: AppThemeData.lightTheme,
             darkTheme: AppThemeData.darkTheme,
             themeMode: themeMode,
-            home: const Home(),
+            home: const ProfileScreen(),
           );
         },
       ),
@@ -51,59 +52,21 @@ class App extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+const TextStyle font18Weight700 = TextStyle(
+    fontFamily: 'SF Pro Display',
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: Color.fromRGBO(255, 255, 255, 1)
+);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              const Spacer(),
-              const SizedBox(height: 16),
-              OutlinedButton(
-                onPressed: () {
-                  ThemeInherited.of(context).switchThemeMode();
-                },
-                child: const Text('Switch theme'),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  ThemeInherited.of(context).setThemeMode(
-                    ThemeMode.light,
-                  );
-                },
-                child: const Text('Set light theme'),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  ThemeInherited.of(context).setThemeMode(
-                    ThemeMode.dark,
-                  );
-                },
-                child: const Text('Set dark theme'),
-              ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: () {
-                  ThemeInherited.of(context).setThemeMode(
-                    ThemeMode.system,
-                  );
-                },
-                child: const Text('Set system theme'),
-              ),
-              const Spacer(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+const TextStyle font14Weight400 = TextStyle(
+    fontFamily: 'SF Pro Display',
+    fontSize: 14,
+    fontWeight: FontWeight.w400
+);
+
+const TextStyle font12Weight400 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Color.fromRGBO(37, 40, 73, 1)
+);
