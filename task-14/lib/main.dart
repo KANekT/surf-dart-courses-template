@@ -55,8 +55,7 @@ class App extends StatelessWidget {
 const TextStyle font18Weight700 = TextStyle(
     fontFamily: 'SF Pro Display',
     fontSize: 18,
-    fontWeight: FontWeight.w700,
-    color: Color.fromRGBO(255, 255, 255, 1)
+    fontWeight: FontWeight.w700
 );
 
 const TextStyle font14Weight400 = TextStyle(
@@ -65,8 +64,13 @@ const TextStyle font14Weight400 = TextStyle(
     fontWeight: FontWeight.w400
 );
 
+const TextStyle font30Weight400 = TextStyle(
+    fontFamily: 'SF Pro Display',
+    fontSize: 30,
+    fontWeight: FontWeight.w400
+);
+
 const TextStyle font12Weight400 = TextStyle(
     fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: Color.fromRGBO(37, 40, 73, 1)
+    fontWeight: FontWeight.w400
 );

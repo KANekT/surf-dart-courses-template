@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:surf_flutter_courses_template/feature/theme/di/theme_inherited.dart';
@@ -94,34 +95,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontFamily: 'SF Pro Display',
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
-                  color: Theme.of(context).appBarTheme.actionsIconTheme?.color
+                  color: Theme
+                      .of(context)
+                      .appBarTheme
+                      .actionsIconTheme
+                      ?.color
               ),
             ),
-          )]
+          )
+          ]
       ),
-      //body: const _ContentWidget(),
+      body: const _ContentWidget(),
     );
   }
 }
-/*
+
 class _ContentWidget extends StatelessWidget {
   const _ContentWidget();
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 0.8,
-            mainAxisSpacing: 40.0,
-            crossAxisSpacing: 22
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Center(
+          child: Stack(
+            children: [
+              CircleAvatar(
+                  radius: 40.0,
+                  backgroundImage: AssetImage('assets/images/avatar.png')
+              ),
+              Container(
+                  height: 80.0,
+                  width: 80.0,
+                  child: Center(
+                    child: Text(
+                        'Edit',
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Display',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).colorScheme.onPrimary
+                          )
+                    ),
+                  )
+              )
+            ]
+          ),
         ),
-        itemCount: data.length,
-        itemBuilder: (_, i) => _ColorWidget(entity: data[i]));
+        Text('Мои награды', style: font14Weight400),
+        Text('🥇🥇🥉🥈🥉', style: font30Weight400)
+        /*
+        GridView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 0.8,
+                mainAxisSpacing: 40.0,
+                crossAxisSpacing: 22
+            ),
+            itemCount: data.length,
+            itemBuilder: (_, i) => _ColorWidget(entity: data[i])),
+            */
+      ],
+    );
   }
 }
 
+/*
 class _ColorWidget extends StatelessWidget {
   final ColorEntity entity;
 
@@ -173,6 +214,7 @@ class _ColorWidget extends StatelessWidget {
   }
 }
 */
+
 class _ErrorWidget extends StatelessWidget {
   const _ErrorWidget();
 

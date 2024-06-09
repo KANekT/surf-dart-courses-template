@@ -20,12 +20,15 @@ abstract class AppThemeData {
     ),
     scaffoldBackgroundColor: _lightOneColorScheme.background,
     appBarTheme: AppBarTheme(
-      color: _lightOneColorScheme.background,
+      color: _lightOneColorScheme.onPrimary,
+      titleTextStyle: TextStyle(
+        color: _lightOneColorScheme.textField
+      ),
       iconTheme: IconThemeData(
-        color: _lightOneColorScheme.onPrimary,
+        color: _lightOneColorScheme.primary,
       ),
       actionsIconTheme: IconThemeData(
-        color: _lightOneColorScheme.onPrimary
+        color: _lightOneColorScheme.primary
       )
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(

@@ -62,14 +62,14 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
   final Color shimmer;
 
   AppColorScheme.lightOne()
-      : primary = const Color.fromRGBO(34, 34, 34, 1),
-        onPrimary = const Color.fromRGBO(109, 217, 2, 1),
-        secondary = LightColorPalette.greenYellow,
+      : primary = const Color.fromRGBO(109, 217, 2, 1),
+        onPrimary = LightColorPalette.white,
+        secondary = const Color.fromRGBO(119, 118, 123, 1),
         onSecondary = LightColorPalette.chineseBlack,
         surface = LightColorPalette.white,
         surfaceSecondary = LightColorPalette.cultured,
         onSurface = LightColorPalette.chineseBlack,
-        background = const Color.fromRGBO(255, 255, 255, 1),
+        background = LightColorPalette.cultured,
         backgroundSecondary = LightColorPalette.darkScarlet,
         backgroundTertiary = LightColorPalette.cultured,
         onBackground = LightColorPalette.chineseBlack,
@@ -77,7 +77,7 @@ class AppColorScheme extends ThemeExtension<AppColorScheme> {
         danger = LightColorPalette.folly,
         dangerSecondary = LightColorPalette.vividRaspberry,
         onDanger = LightColorPalette.white,
-        textField = LightColorPalette.chineseBlack,
+        textField = const Color.fromRGBO(34, 34, 34, 1),
         textFieldLabel = LightColorPalette.black,
         textFieldHelper = LightColorPalette.black,
         frameTextFieldSecondary = LightColorPalette.chineseBlack,
