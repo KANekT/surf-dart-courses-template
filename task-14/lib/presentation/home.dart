@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:surf_flutter_courses_template/feature/theme/di/theme_inherited.dart';
 import 'package:surf_flutter_courses_template/main.dart';
 
@@ -83,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {},
             icon: const Icon(Icons.arrow_back_ios),
           ),
-          title: Text(
+          title: const Text(
               'Профиль',
               style: font18Weight700
           ),
@@ -121,11 +119,11 @@ class _ContentWidget extends StatelessWidget {
         Center(
           child: Stack(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                   radius: 40.0,
                   backgroundImage: AssetImage('assets/images/avatar.png')
               ),
-              Container(
+              SizedBox(
                   height: 80.0,
                   width: 80.0,
                   child: Center(
@@ -143,8 +141,8 @@ class _ContentWidget extends StatelessWidget {
             ]
           ),
         ),
-        Text('Мои награды', style: font14Weight400),
-        Text('🥇🥇🥉🥈🥉', style: font30Weight400)
+        const Text('Мои награды', style: font14Weight400),
+        const Text('🥇🥇🥉🥈🥉', style: font30Weight400)
         /*
         GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
