@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/assets/app_strings.dart';
 import 'package:surf_flutter_courses_template/domain/entity/photo_entity.dart';
 import 'package:surf_flutter_courses_template/domain/entity/photo_state_entity.dart';
 import 'package:surf_flutter_courses_template/presentation/photo_screen.dart';
