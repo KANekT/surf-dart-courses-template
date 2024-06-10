@@ -24,12 +24,6 @@ class MainApp extends StatelessWidget {
   }
 }
 
-abstract class AppStrings {
-  static const hexColorsScreen = 'Hex';
-  static const redColorsScreen = 'Red';
-  static const greenColorsScreen = 'Green';
-  static const blueColorsScreen = 'Blue';
-}
 const TextStyle font30Weight700 = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.w700,

@@ -1,12 +1,13 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:surf_flutter_courses_template/assets/app_strings.dart';
 import 'package:surf_flutter_courses_template/domain/entity/photo_entity.dart';
+import 'package:surf_flutter_courses_template/domain/entity/photo_state_entity.dart';
 import 'package:surf_flutter_courses_template/presentation/photo_screen.dart';
-import 'package:surf_flutter_courses_template/presentation/empty_screen.dart';
 import 'package:surf_flutter_courses_template/main.dart';
 import 'package:union_state/union_state.dart';
 
-import 'package:surf_flutter_courses_template/assets/app_images.dart';
+import 'package:surf_flutter_courses_template/app_consts.dart';
 
 class PhotosScreen extends StatefulWidget {
   const PhotosScreen({super.key});
@@ -65,33 +66,50 @@ class _ContentWidget extends StatelessWidget {
     return GridView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 1,
-          mainAxisSpacing: 5.0,
-          crossAxisSpacing: 3
+            crossAxisCount: 3,
+            childAspectRatio: 1,
+            mainAxisSpacing: 5,
+            crossAxisSpacing: 3
         ),
         itemCount: data.length,
-        itemBuilder: (_, i) => _PhotoWidget(index: i, entity: data[i]));
+        itemBuilder: (_, i) => _PhotoWidget(index: i, entities: data));
   }
 }
 
 class _PhotoWidget extends StatelessWidget {
   final int index;
-  final PhotoEntity entity;
+  final List<PhotoEntity> entities;
 
-  const _PhotoWidget({required this.index, required this.entity});
+  const _PhotoWidget({required this.index, required this.entities});
 
   @override
   Widget build(BuildContext context) {
+    final entity = entities[index];
     return Center(
       child: GestureDetector(
-        onTap: () => _onTap(context),
+        onTap: () => _onTap(context, indexPhoto: index),
         child: AspectRatio(
-            aspectRatio: 1,
+          aspectRatio: 1,
           child: Hero(
-            tag: entity.path,
-            child: Image.asset(entity.path,
-            fit: BoxFit.cover,
+            tag: entity.name,
+            child: Image.network(entity.getPath(),
+              fit: BoxFit.cover,
+              loadingBuilder: (_, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Center(
+                  child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes! : null
+                  ),
+                );
+              },
+              errorBuilder: (_, error, stackTrace) =>
+                  Center(
+                      child: Text(error.toString())
+                  ),
             ),
           ),
         ),
@@ -99,10 +117,19 @@ class _PhotoWidget extends StatelessWidget {
     );
   }
 
-  void _onTap(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(
-        builder: (_) => ColorScreen(colorEntity: entity))
+  void _onTap(BuildContext context, {required int indexPhoto}) {
+    Navigator
+        .of(context)
+        .push(
+        MaterialPageRoute(
+            builder: (_) =>
+                PhotoScreen(
+                  photoState: PhotoStateEntity(
+                      index: index,
+                      photos: entities
+                  ),
+                )
+        )
     );
   }
 }
@@ -114,7 +141,7 @@ class _EmptyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Постов нет'),
+      child: Text(AppStrings.emptyText),
     );
   }
 }
@@ -125,7 +152,7 @@ class _ErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Произошла ошибка при загрузке'),
+      child: Text(AppStrings.errorText),
     );
   }
 }

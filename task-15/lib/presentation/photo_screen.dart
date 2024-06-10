@@ -1,135 +1,195 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:surf_flutter_courses_template/app_consts.dart';
 import 'package:surf_flutter_courses_template/domain/entity/photo_entity.dart';
-import 'package:surf_flutter_courses_template/domain/entity/rgb_type.dart';
-import 'package:surf_flutter_courses_template/main.dart';
-import 'package:surf_flutter_courses_template/utils/extensions/string_x.dart';
+import 'package:surf_flutter_courses_template/domain/entity/photo_state_entity.dart';
 
-class ColorScreen extends StatelessWidget {
-  final ColorEntity colorEntity;
+class PhotoScreen extends StatefulWidget {
+  final PhotoStateEntity photoState;
 
-  const ColorScreen({super.key, required this.colorEntity});
+  const PhotoScreen({super.key, required this.photoState});
+
+  @override
+  State<PhotoScreen> createState() => _PhotoScreenState();
+}
+
+class _PhotoScreenState extends State<PhotoScreen> {
+  late final PageController pageController;
+  late double _currentPageValue;
+
+  // Уменьшение след / пред фотографии
+  final double _scaleFactor = 0.8;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController =
+        PageController(initialPage: widget.photoState.index, viewportFraction: 0.8)
+    ..addListener(_listenToPageController);
+    _currentPageValue = widget.photoState.index.toDouble();
+  }
+
+  @override
+  void dispose() {
+    pageController
+    ..removeListener(_listenToPageController)
+    ..dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery
+    final photos = widget.photoState.photos;
+    const sumPadding = AppPadding.pageTop + AppPadding.pageBottom;
+    final heightPageView = MediaQuery
         .sizeOf(context)
-        .height;
-    final colorBoxHeight = height / 2;
-    final preferredSizeHeight = colorBoxHeight - kToolbarHeight;
+        .height - kToolbarHeight - sumPadding;
 
     return Scaffold(
-        appBar: AppBar(
-            toolbarHeight: kToolbarHeight, // деaолтная высота 56
-            foregroundColor: Colors.white,
-            flexibleSpace: SizedBox(
-              width: double.infinity,
-              height: colorBoxHeight, // половина экрана
-              child: ColoredBox(
-                color: colorEntity.value.hexToColor() ?? Colors.white,
-              ),
-            ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(preferredSizeHeight),
-            child: const SizedBox.shrink(),
-          ),
-        ),
+      appBar: AppBar(
+        leading: _BackButton(),
+        actions: [
+          _PhotosIndicator(
+              countPhotos: photos.length,
+              currentPhoto: _currentPageValue.round() + 1
+          )
+        ],
+      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(colorEntity.name, style: font30Weight700),
-            const SizedBox(height: 16),
-            _ShadowBoxWidget(title: AppStrings.hexColorsScreen, value: colorEntity.value),
-            const SizedBox(height: 16),
-            _RgbWidget(color: colorEntity.value.hexToColor())
-          ],
+        padding: const EdgeInsets.only(top: AppPadding.pageTop, bottom: AppPadding.pageBottom),
+        child: PageView.builder(
+            controller: pageController,
+            itemCount: widget.photoState.photos.length,
+            itemBuilder: (_, index) {
+              final photo = photos[index];
+              Matrix4 matrix = Matrix4.identity();
+
+              var scale = 0.8;
+
+              // только текущее фото + пред/след
+              if (index == _currentPageValue.floor() ||
+                  index == _currentPageValue.floor() + 1 ||
+                  index == _currentPageValue.floor() - 1) {
+                scale =
+                    1 - (_currentPageValue - index).abs() * (1 - _scaleFactor);
+              }
+
+              var transform = heightPageView * (1 - scale) / 2;
+
+              matrix = Matrix4.diagonal3Values(1.0, scale, 1.0)
+              // смещение виджета для выравнивания по центру
+                ..setTranslationRaw(0, transform, 0);
+
+              return Transform(
+                  transform: matrix,
+                  child: _PhotoFullScreenWidget(
+                      photo: photo,
+                      tag: index == _currentPageValue.floor()
+                          ? photo.getPath()
+                          : null
+                  ));
+            }
         ),
       ),
     );
   }
+
+  void _listenToPageController() {
+    double page = pageController.page ?? 0;
+
+    setState(() {
+      _currentPageValue = page;
+    });
+  }
 }
 
-class _ShadowBoxWidget extends StatelessWidget {
-  final String title;
-  final String value;
+class _PhotoFullScreenWidget extends StatelessWidget {
+  final PhotoEntity photo;
 
-  const _ShadowBoxWidget({required this.title, required this.value});
+  final String? tag;
+
+  const _PhotoFullScreenWidget({required this.photo, this.tag});
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.shade100,
-                blurRadius: 12,
-                offset: const Offset(0, 12)
-            )
-          ]
-
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GestureDetector(
-          onTap: () => _onTap(context),
-          child: Row(
-            children: [
-              Expanded(child: Text(
-                title,
-                style: font16Weight400,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              )),
-              Text(value, style: font16Weight400)
-            ],
+    final imageWidget = Image.network(
+      photo.getPath(),
+      fit: BoxFit.cover,
+      loadingBuilder: (_, child, loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        }
+        return Center(
+          child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                  loadingProgress.expectedTotalBytes! : null
           ),
+        );
+      },
+      errorBuilder: (_, error, stackTrace) =>
+          Center(
+              child: Text(error.toString())
+          ),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: AspectRatio(
+        aspectRatio: 1 / 2,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24.0),
+          child: tag == null
+              ? imageWidget
+              : Hero(tag: photo.name, child: imageWidget),
         ),
       ),
     );
   }
+}
 
-  void _onTap(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: value));
-    if (!context.mounted) {
-      return;
-    }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Скопировали ${value}"),
-    ));
+class _BackButton extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {Navigator.pop(context);},
+      icon: const Icon(Icons.arrow_back_ios),
+    );
   }
 }
 
-class _RgbWidget extends StatelessWidget {
-  final Color color;
+class _PhotosIndicator extends StatelessWidget {
+  // всего фото
+  final int countPhotos;
 
-  const _RgbWidget({required this.color});
+  // текущее фото
+  final int currentPhoto;
+
+  const _PhotosIndicator({
+    required this.currentPhoto,
+    required this.countPhotos
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        children: RgbType.values
-            .expandIndexed(
-                (i, e) =>
-            [
-              Expanded(
-                child: _ShadowBoxWidget(
-                    title: e.name,
-                    value: switch (e) {
-                      RgbType.red => color.red.toString(),
-                      RgbType.green => color.green.toString(),
-                      RgbType.blue => color.blue.toString()
-                    }
-                ),
-              ),
-              if (i != RgbType.values.length - 1) const SizedBox(width: 8),
-            ]
-        ).toList()
+    final themeText = Theme
+        .of(context)
+        .textTheme
+        .titleLarge;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text.rich(
+          TextSpan(
+              text: '$currentPhoto',
+              style: themeText?.copyWith(color: Colors.black),
+              children: [
+                TextSpan(
+                    text: '/$countPhotos',
+                    style: themeText?.copyWith(color: Colors.black)
+                )
+              ]
+          )
+      ),
     );
   }
 }

@@ -1,6 +1,9 @@
-// Модель Поста
-class PhotoStateEntity {
-  final String path;
+import 'package:surf_flutter_courses_template/domain/entity/photo_entity.dart';
 
-  PhotoStateEntity({required this.path});
+class PhotoStateEntity {
+  final int index;
+
+  final List<PhotoEntity> photos;
+
+  PhotoStateEntity({required this.index, required this.photos});
 }
