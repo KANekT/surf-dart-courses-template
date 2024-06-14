@@ -5,5 +5,5 @@ class PhotoStateEntity {
 
   final List<PhotoEntity> photos;
 
-  PhotoStateEntity({required this.index, required this.photos});
+  PhotoStateEntity({required this.index, required this.photos,});
 }

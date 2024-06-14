@@ -1,12 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/domain/entity/photo_entity.dart';
 import 'package:surf_flutter_courses_template/domain/entity/photo_state_entity.dart';
 import 'package:surf_flutter_courses_template/presentation/photo_screen.dart';
 import 'package:surf_flutter_courses_template/main.dart';
+import 'package:surf_flutter_courses_template/uikit/app_images.dart';
 import 'package:union_state/union_state.dart';
 
-import 'package:surf_flutter_courses_template/app_consts.dart';
+import 'package:surf_flutter_courses_template/uikit/app_strings.dart';
 
 class PhotosScreen extends StatefulWidget {
   const PhotosScreen({super.key});

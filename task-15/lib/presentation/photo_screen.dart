@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/app_consts.dart';
 import 'package:surf_flutter_courses_template/domain/entity/photo_entity.dart';
 import 'package:surf_flutter_courses_template/domain/entity/photo_state_entity.dart';
 
@@ -15,6 +14,9 @@ class PhotoScreen extends StatefulWidget {
 class _PhotoScreenState extends State<PhotoScreen> {
   late final PageController pageController;
   late double _currentPageValue;
+
+  static const double pageTop = 40.0;
+  static const double pageBottom = 72.0;
 
   // Уменьшение след / пред фотографии
   final double _scaleFactor = 0.8;
@@ -39,7 +41,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
   @override
   Widget build(BuildContext context) {
     final photos = widget.photoState.photos;
-    const sumPadding = AppPadding.pageTop + AppPadding.pageBottom;
+    const sumPadding = pageTop + pageBottom;
     final heightPageView = MediaQuery
         .sizeOf(context)
         .height - kToolbarHeight - sumPadding;
@@ -55,7 +57,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: AppPadding.pageTop, bottom: AppPadding.pageBottom),
+        padding: const EdgeInsets.only(top: pageTop, bottom: pageBottom),
         child: PageView.builder(
             controller: pageController,
             itemCount: widget.photoState.photos.length,
