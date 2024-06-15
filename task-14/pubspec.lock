@@ -301,6 +301,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  union_state:
+    dependency: "direct main"
+    description:
+      name: union_state
+      sha256: d442c0bc790dce4690ca8db3389b5c3981f25629d2b975b1bbb35691519b28d4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   vector_math:
     dependency: transitive
     description:

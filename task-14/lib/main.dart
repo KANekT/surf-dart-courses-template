@@ -1,3 +1,4 @@
+import 'package:surf_flutter_courses_template/data/repository/profiles_repository.dart';
 import 'package:surf_flutter_courses_template/feature/theme/ui/theme_builder.dart';
 import 'package:surf_flutter_courses_template/feature/theme/domain/theme_controller.dart';
 import 'package:surf_flutter_courses_template/presentation/home.dart';
@@ -25,6 +26,8 @@ void main() async {
     themeController: themeController,
   ));
 }
+
+final profilesRepository = ProfilesRepository();
 
 class App extends StatelessWidget {
   final ThemeController themeController;

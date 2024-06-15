@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:surf_flutter_courses_template/domain/entity/profile_entity.dart';
 import 'package:surf_flutter_courses_template/feature/theme/di/theme_inherited.dart';
 import 'package:surf_flutter_courses_template/main.dart';
+import 'package:surf_flutter_courses_template/uikit/app_strings.dart';
+import 'package:union_state/union_state.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -67,9 +70,22 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final screenState = UnionStateNotifier<List<ProfileEntity>>.loading();
+
   @override
   void initState() {
     super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+      final data = await profilesRepository.getPosts();
+      screenState.content(data);
+    } on Exception catch (e) {
+      screenState.failure(e);
+    }
   }
 
   @override
@@ -103,13 +119,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
           ]
       ),
-      body: const _ContentWidget(),
+      body: UnionStateListenableBuilder<List<ProfileEntity>>(
+        unionStateListenable: screenState,
+        loadingBuilder: (_, __) => const _LoadingWidget(),
+        builder: (_, state) =>
+        state.isNotEmpty
+            ? _ContentWidget(data: state)
+            : const _EmptyWidget(),
+        failureBuilder: (_, __, ___) => const _ErrorWidget(),
+      ),
     );
   }
 }
 
 class _ContentWidget extends StatelessWidget {
-  const _ContentWidget();
+  final List<ProfileEntity> data;
+
+  const _ContentWidget({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -142,8 +168,7 @@ class _ContentWidget extends StatelessWidget {
           ),
         ),
         const Text('Мои награды', style: font14Weight400),
-        const Text('🥇🥇🥉🥈🥉', style: font30Weight400)
-        /*
+        const Text('🥇🥇🥉🥈🥉', style: font30Weight400),
         GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -153,65 +178,51 @@ class _ContentWidget extends StatelessWidget {
                 crossAxisSpacing: 22
             ),
             itemCount: data.length,
-            itemBuilder: (_, i) => _ColorWidget(entity: data[i])),
-            */
+            itemBuilder: (_, i) => _ProfileFieldWidget(entity: data[i])),
       ],
     );
   }
 }
 
-/*
-class _ColorWidget extends StatelessWidget {
-  final ColorEntity entity;
+class _ProfileFieldWidget extends StatelessWidget {
+  final ProfileEntity entity;
 
-  const _ColorWidget({required this.entity});
+  const _ProfileFieldWidget({required this.entity});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: GestureDetector(
-        onTap: () => _onTap(context),
-        onLongPress: () => _onLongPress(context),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-            [
-              SizedBox.square(
-                dimension: 100.0,
-                child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: entity.value.hexToColor()
-                    )
-                ),
+      child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children:
+          [
+            SizedBox.square(
+              dimension: 100.0,
+              child: DecoratedBox(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16)
+                  )
               ),
-              Text(entity.name, style: font12Weight400),
-              Text(entity.value, style: font12Weight400)
-            ]
-        ),
+            ),
+            Text(entity.name, style: font12Weight400),
+            Text(entity.value, style: font12Weight400)
+          ]
       ),
     );
   }
+}
 
-  void _onTap(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(
-        builder: (_) => ColorScreen(colorEntity: entity))
+class _EmptyWidget extends StatelessWidget {
+  const _EmptyWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(AppStrings.emptyText),
     );
   }
-
-  void _onLongPress(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: entity.value));
-    if (!context.mounted) {
-      return;
-    }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Скопировали ${entity.value}"),
-    ));
-  }
 }
-*/
 
 class _ErrorWidget extends StatelessWidget {
   const _ErrorWidget();
@@ -219,7 +230,7 @@ class _ErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Произошла ошибка при загрузке'),
+      child: Text(AppStrings.errorText),
     );
   }
 }
